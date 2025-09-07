@@ -1,0 +1,42 @@
+# Copia este archivo a application.properties y completa tus valores locales.
+# Nunca subas application.properties al repositorio (ya está en .gitignore).
+
+spring.application.name=pruebaSpringThymeleaf
+
+# Puerto del servidor
+server.port=8080
+
+# Logging
+logging.level.com.example=INFO
+spring.main.banner-mode=off
+spring.thymeleaf.cache=false
+
+# Base de datos (MySQL)
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/bd_proyectofinal
+spring.datasource.username=TU_USUARIO
+spring.datasource.password=TU_PASSWORD
+
+# JPA / Hibernate
+# JPA schema management (en desarrollo puedes usar 'update')
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=true
+
+# Mensajes
+spring.messages.basename=messages
+
+# Niveles de log sugeridos
+logging.level.org.springframework=INFO
+
+# Encoding UTF-8
+server.servlet.encoding.charset=UTF-8
+server.servlet.encoding.force=true
+
+# Numeración fiscal y tasa IVA
+app.factura.establecimiento=001
+app.factura.punto=001
+app.iva.rate=0.10
+app.remito.establecimiento=001
+app.remito.punto=001

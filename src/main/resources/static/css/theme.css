@@ -1,0 +1,122 @@
+/* Tema monocromatico (blanco y negro) para Bootstrap */
+
+html, body {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+/* Navbar y footer oscuros */
+.navbar-dark.bg-dark { background-color: #000000 !important; }
+footer.bg-dark { background-color: #000000 !important; }
+
+/* Forzar paleta en botones a escala de grises */
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-info {
+  background-color: #111111 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+.btn-primary:hover,
+.btn-success:hover,
+.btn-warning:hover,
+.btn-info:hover {
+  background-color: #222222 !important;
+  border-color: #111111 !important;
+}
+.btn-secondary { /* gris medio */
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #ffffff !important;
+}
+.btn-danger { /* gris oscuro para eliminar */
+  background-color: #2f2f2f !important;
+  border-color: #1f1f1f !important;
+  color: #ffffff !important;
+}
+.btn-danger:hover {
+  background-color: #3a3a3a !important;
+  border-color: #2a2a2a !important;
+}
+
+/* Tablas en escala de grises */
+.table thead { background-color: #f1f3f5; color: #111; }
+.table-primary { background-color: #e9ecef !important; color: #111111 !important; }
+.table-success { background-color: #f1f3f5 !important; color: #111111 !important; }
+.table-striped tbody tr:nth-of-type(odd) { background-color: rgba(0,0,0,.03); }
+.table { border-color: #e5e5e5 !important; }
+.table th, .table td { vertical-align: middle; }
+
+/* Tarjetas, contenedores y formularios */
+.card,
+.bg-light { background-color: #ffffff !important; }
+label, .form-label { color: #111111; }
+
+/* Enlaces generales */
+a { color: #111111; }
+a:hover { color: #000000; }
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 { color: #111111; }
+
+/* Ajustes por si alguna vista aún usa bg-primary */
+.bg-primary { background-color: #111111 !important; }
+.text-primary { color: #111111 !important; }
+
+/* Separadores sutiles */
+hr { border-top: 1px solid #e2e2e2; }
+
+/* ----------------------------- */
+/* Unificación visual de módulos */
+/* ----------------------------- */
+.page-title { 
+  font-weight: 700; 
+  letter-spacing: .2px; 
+  margin-bottom: 1rem; 
+  text-align: center; 
+}
+
+.content-section { 
+  padding-top: 1rem; 
+  padding-bottom: 1rem; 
+}
+
+.card, .table, .form-control, .form-select, .btn { 
+  border-radius: 6px; 
+}
+
+.shadow-soft { box-shadow: 0 6px 14px rgba(0,0,0,0.06); }
+
+/* --------- */
+/* Home hero */
+/* --------- */
+.hero {
+  position: relative;
+  padding: 3rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #111 0%, #222 100%);
+  color: #fff;
+}
+.hero .hero-title { font-weight: 800; }
+.hero .hero-sub { color: #e5e5e5; }
+.hero .hero-img { filter: grayscale(100%); opacity: .9; }
+
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+.module-card { 
+  background: #fff; 
+  border: 1px solid #eaeaea; 
+  padding: 16px; 
+  border-radius: 10px; 
+  transition: transform .15s ease, box-shadow .15s ease; 
+}
+.module-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.08); }
+.module-card img { width: 42px; height: 42px; filter: grayscale(100%); }
+.module-card .title { font-weight: 700; margin-top: 8px; }
+
+/* Encabezados de tablas unificados */
+table thead tr th { font-weight: 700; }
+
+/* Formularios: separación vertical uniforme */
+form .mb-3, form .row .mb-3 { margin-bottom: 1rem !important; }
+
