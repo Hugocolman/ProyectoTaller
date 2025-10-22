@@ -1,4 +1,4 @@
-package com.springData;
+﻿package com.springData;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,10 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers(
-                        "/productos/**", "/personas/**", "/clientes/**", "/proveedores/**",
-                        "/categorias/**", "/marcas/**", "/paises/**", "/ciudades/**", "/barrios/**",
-                        "/ventas/**", "/compras/**", "/presupuestos/**", "/pedidos/**", "/remitos/**", "/facturas/**",
-                        "/roles/**", "/usuarios/**"
+                        "/productos/**", "/clientes/**",
+                        "/categorias/**", "/marcas/**",
+                        "/ventas/**", "/presupuestos/**", "/pedidos/**", "/remitos/**", "/facturas/**"
                 ).hasAnyRole("ADMIN","USER","VIEWER")
                 .antMatchers(HttpMethod.GET,  "/**/nuevo", "/**/editar/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/**/guardar", "/**/eliminar/**", "/**/anular/**", "/facturas/emitir/**").hasRole("ADMIN")
