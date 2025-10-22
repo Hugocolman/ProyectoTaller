@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuestos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/theme.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="navbar :: navbar"></div>
+    <div class="container mt-4">
+        <h2 class="text-center">Presupuestos</h2>
+        <form class="row g-2 my-3" method="get" th:action="@{/presupuestos}">
+            <div class="col-sm-8 col-md-6">
+                <input class="form-control" type="text" name="q" placeholder="Buscar por cliente" th:value="${q}">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+            <div class="col-auto ms-auto">
+                <a th:href="@{/presupuestos/nuevo}" class="btn btn-success">Nuevo Presupuesto</a>
+            </div>
+        </form>
+        <table class="table table-hover table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Válido Hasta</th>
+                    <th>Estado</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p, iter : ${page.content}">
+                    <td th:text="${iter.count}"></td>
+                    <td th:text="${p.cliente}"></td>
+                    <td th:text="${p.fecha != null ? p.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
+                    <td th:text="${p.validoHasta != null ? p.validoHasta.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
+                    <td><span class="badge bg-dark" th:text="${p.estado}"></span></td>
+                    <td th:text="${p.total}"></td>
+                    <td>
+                        <a th:href="@{/presupuestos/editar/{id}(id=${p.id})}" class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/presupuestos/detalle/{id}(id=${p.id})}" class="btn btn-secondary btn-sm">Detalle</a>
+                        <a th:href="@{/presupuestos/imprimir/{id}(id=${p.id})}" class="btn btn-info btn-sm">Imprimir</a>
+                        <form th:action="@{/presupuestos/convertir/{id}(id=${p.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('¿Convertir a Pedido?');">A Pedido</button>
+                        </form>
+                        <form th:action="@{/presupuestos/eliminar/{id}(id=${p.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar presupuesto?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Paginación">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page.first}? 'disabled'">
+                    <a class="page-link" th:href="@{/presupuestos(page=${page.number-1},size=${page.size},q=${q})}">Anterior</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages-1)}" th:classappend="${i == page.number}? 'active'">
+                    <a class="page-link" th:text="${i+1}" th:href="@{/presupuestos(page=${i},size=${page.size},q=${q})}"></a>
+                </li>
+                <li class="page-item" th:classappend="${page.last}? 'disabled'">
+                    <a class="page-link" th:href="@{/presupuestos(page=${page.number+1},size=${page.size},q=${q})}">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div th:replace="footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

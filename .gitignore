@@ -1,0 +1,18 @@
+# Maven / Java
+target/
+*.log
+
+# IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+nbproject/private/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config (do not commit)
+src/main/resources/application.properties
