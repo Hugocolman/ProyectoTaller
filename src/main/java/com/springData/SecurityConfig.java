@@ -1,4 +1,4 @@
-﻿package com.springData;
+package com.springData;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

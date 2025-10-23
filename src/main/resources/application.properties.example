@@ -14,8 +14,8 @@ spring.thymeleaf.cache=false
 # Base de datos (MySQL)
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.url=jdbc:mysql://localhost:3306/bd_proyectofinal?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
-spring.datasource.username=TU_USUARIO
-spring.datasource.password=TU_PASSWORD
+spring.datasource.username=root
+spring.datasource.password=1234
 
 # JPA / Hibernate
 # JPA schema management (en desarrollo puedes usar 'update')
