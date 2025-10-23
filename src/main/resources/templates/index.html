@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>App de Gestión</title>
+        <title>Módulo de Ventas</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link th:href="@{/css/theme.css}" rel="stylesheet">
     </head>
@@ -11,35 +11,29 @@
         <div th:replace="navbar :: navbar"></div>
 
         <div class="container mt-4 content-section">
+            <!-- Hero principal enfocado en Ventas -->
             <div class="hero shadow-soft">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h1 class="hero-title mb-2">Bienvenido a la Gestión</h1>
-                        <p class="hero-sub mb-3">Administra productos, clientes y operaciones comerciales de forma simple y consistente.</p>
+                        <h1 class="hero-title mb-2">Módulo de Ventas</h1>
+                        <p class="hero-sub mb-3">Gestiona el ciclo completo: presupuestos, pedidos, remitos y facturas.</p>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="/productos" class="btn btn-primary">Productos</a>
-                            <a href="/ventas" class="btn btn-secondary">Ventas</a>
                             <a href="/presupuestos" class="btn btn-secondary">Presupuestos</a>
                             <a href="/pedidos" class="btn btn-secondary">Pedidos</a>
                             <a href="/remitos" class="btn btn-secondary">Remitos</a>
-                            <a href="/facturas" class="btn btn-secondary">Facturas</a>
+                            <a href="/facturas" class="btn btn-primary">Facturas</a>
+                            <a href="/docs/ventas" class="btn btn-outline-secondary">Flujo de ventas</a>
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
-                        <img class="hero-img img-fluid" src="https://cdn-icons-png.flaticon.com/512/2721/2721297.png" alt="Gestión" style="max-width:160px;">
+                        <img class="hero-img img-fluid" src="https://cdn-icons-png.flaticon.com/512/5339/5339185.png" alt="Ventas" style="max-width:160px;">
                     </div>
                 </div>
             </div>
 
+            <!-- Accesos rápidos del flujo de ventas -->
             <div class="mt-4">
                 <div class="feature-grid">
-                    <a href="/productos" class="text-decoration-none text-reset">
-                        <div class="module-card">
-                            <img src="https://cdn-icons-png.flaticon.com/512/679/679922.png" alt="Productos">
-                            <div class="title">Inventario</div>
-                            <div>Altas, ediciones, stock y marcas.</div>
-                        </div>
-                    </a>
                     <a href="/presupuestos" class="text-decoration-none text-reset">
                         <div class="module-card">
                             <img src="https://cdn-icons-png.flaticon.com/512/1688/1688400.png" alt="Presupuestos">
@@ -51,14 +45,14 @@
                         <div class="module-card">
                             <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Pedidos">
                             <div class="title">Pedidos</div>
-                            <div>Gestiona, entrega y controla pendientes.</div>
+                            <div>Confirma ventas y prepara entregas.</div>
                         </div>
                     </a>
                     <a href="/remitos" class="text-decoration-none text-reset">
                         <div class="module-card">
                             <img src="https://cdn-icons-png.flaticon.com/512/2832/2832794.png" alt="Remitos">
                             <div class="title">Remitos</div>
-                            <div>Entrega, anulación y reposición de stock.</div>
+                            <div>Entrega y control de movimientos.</div>
                         </div>
                     </a>
                     <a href="/facturas" class="text-decoration-none text-reset">
@@ -66,13 +60,6 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135680.png" alt="Facturas">
                             <div class="title">Facturación</div>
                             <div>Emite, imprime y anula con nota de crédito.</div>
-                        </div>
-                    </a>
-                    <a href="/compras" class="text-decoration-none text-reset">
-                        <div class="module-card">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Compras">
-                            <div class="title">Compras</div>
-                            <div>Recepción a stock y control de proveedores.</div>
                         </div>
                     </a>
                 </div>
@@ -83,4 +70,3 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
-
