@@ -1,4 +1,4 @@
-package com.springData.controller;
+﻿package com.springData.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,10 +36,6 @@ public class DocsController {
         return "docs/modulo-contabilidad";
     }
 
-    @GetMapping("/docs/ventas")
-    public String ventas() {
-        return "docs/modulo-ventas";
-    }
 
     @GetMapping("/docs/cliente")
     public String cliente() {
