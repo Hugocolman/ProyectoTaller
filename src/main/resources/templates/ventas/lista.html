@@ -19,7 +19,7 @@
                     <th>Cliente</th>
                     <th>Fecha</th>
                     <th>Total</th>
-                    <th>MÃ©todo de Pago</th>
+                    <th>Metodo de Pago</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -30,14 +30,14 @@
                     <td th:text="${venta.total}"></td>
                     <td th:text="${venta.metodoPago}"></td>
                     <td>
-                        <a th:href="@{/ventas/editar/{id}(id=${venta.id})}" class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/ventas/editar/{id}(id=${venta.id})}" class="btn btn-primary btn-sm">Detalles</a>
                         <form th:action="@{/ventas/eliminar/{id}(id=${venta.id})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Â¿Eliminar esta venta?');">Eliminar</button>
                         </form>
                     </td>
                 </tr>
             </tbody>
-        </table>\r\n</div>
+        
 
     <div th:replace="footer :: footer"></div>
 </body>

@@ -85,14 +85,15 @@ public class MovimientoVentaController {
         return "redirect:/ventas/lista";
     }
 
-    @GetMapping("/editar/{id}")
+        @GetMapping("/editar/{id}")
     public String editarVenta(@PathVariable Long id, Model model) {
         MovimientoVenta venta = repository.findById(id).orElse(null);
         if (venta != null) {
             model.addAttribute("venta", venta);
-            model.addAttribute("productos", productoRepository.findAll());
-            return "ventas/formulario";
+            return "ventas/detalle";
         }
+        return "redirect:/ventas/lista";
+    }
         return "redirect:/ventas/lista";
     }
 
@@ -114,3 +115,4 @@ public class MovimientoVentaController {
         return "ventas/detalle";
     }
 }
+
