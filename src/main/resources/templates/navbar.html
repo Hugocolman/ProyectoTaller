@@ -12,6 +12,19 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="ventasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ventas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="ventasDropdown">
+                                <li><a class="dropdown-item" th:href="@{/presupuestos}">Presupuestos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/pedidos}">Pedidos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/remitos}">Remitos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/facturas}">Facturas</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" th:href="@{/ventas}">Panel de Ventas</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link text-white fw-semibold" th:href="@{/productos}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link text-white" th:href="@{/marcas}">Marcas</a></li>
                         <li class="nav-item"><a class="nav-link text-white" th:href="@{/categorias}">Categorías</a></li>
@@ -24,3 +37,4 @@
         </nav>
     </body>
 </html>
+
