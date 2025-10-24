@@ -2,16 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Ventas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/theme.css}" rel="stylesheet">
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<div class="container mt-4">
-    <h2 class="mb-3">Panel de Ventas</h2>
+
+<div class="container mt-4 content-section">
+    <!-- Hero acorde al diseño del proyecto -->
+    <div class="hero shadow-soft mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="hero-title mb-2">Panel de Ventas</h1>
+                <p class="hero-sub mb-3">Resumen de actividad, facturación y productos más vendidos.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary" th:href="@{/ventas/lista}">Ver lista de ventas</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/facturas}">Ir a Facturas</a>
+                    <a class="btn btn-outline-secondary" th:href="@{/presupuestos}">Ir a Presupuestos</a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="hero-img img-fluid" src="https://cdn-icons-png.flaticon.com/512/5339/5339185.png" alt="Ventas" style="max-width:160px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- KPIs -->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <div class="text-muted">Ventas totales</div>
                     <div class="h4 mb-0" th:text="${totalVentas}">0</div>
@@ -19,7 +40,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <div class="text-muted">Ventas hoy</div>
                     <div class="h4 mb-0" th:text="${ventasHoy}">0</div>
@@ -27,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
                     <div class="text-muted">Total facturado</div>
                     <div class="h4 mb-0">$ <span th:text="${#numbers.formatDecimal(totalFacturado,1,2)}">0.00</span></div>
@@ -36,25 +57,69 @@
         </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">Top productos (por cantidad)</div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-sm align-middle">
-                    <thead>
-                        <tr><th>Producto</th><th class="text-end">Cantidad</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="e : ${topProductos}">
-                            <td th:text="${e.key}">Producto</td>
-                            <td class="text-end" th:text="${e.value}">0</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- Top productos + gráfico -->
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">Top productos (por cantidad)</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                                <tr><th>Producto</th><th class="text-end">Cantidad</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="e : ${topProductos}">
+                                    <td th:text="${e.key}">Producto</td>
+                                    <td class="text-end" th:text="${e.value}">0</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(topProductos)}"><td colspan="2" class="text-center text-muted">Sin datos</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">Gráfico: Top productos</div>
+                <div class="card-body">
+                    <canvas id="chartTop" height="220"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div th:replace="footer :: footer"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    const labels = [[${topProductos}]].map(e => e.key);
+    const dataVals = [[${topProductos}]].map(e => e.value);
+    const ctx = document.getElementById('chartTop');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cantidad',
+                    data: dataVals,
+                    backgroundColor: 'rgba(13,110,253,0.5)',
+                    borderColor: 'rgba(13,110,253,1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
+    }
+/*]]>*/
+</script>
 </body>
 </html>
