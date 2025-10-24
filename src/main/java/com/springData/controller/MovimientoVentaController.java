@@ -105,5 +105,12 @@ public class MovimientoVentaController {
     // Compatibilidad: si alguien entra a /ventas/panel, redirige al nuevo panel en /ventas
     @GetMapping("/panel")
     public String redirPanel() { return "redirect:/ventas"; }
-}
 
+    @GetMapping("/detalle/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        com.springData.domain.MovimientoVenta venta = repository.findById(id).orElse(null);
+        if (venta == null) { return "redirect:/ventas/lista"; }
+        model.addAttribute("venta", venta);
+        return "ventas/detalle";
+    }
+}
