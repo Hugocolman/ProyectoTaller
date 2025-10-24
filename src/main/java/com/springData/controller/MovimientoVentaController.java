@@ -31,11 +31,39 @@ public class MovimientoVentaController {
         this.facturaRepository = facturaRepository;
     }
 
+    // Opción A: /ventas muestra el panel (dashboard)
     @GetMapping
+    public String panel(Model model) {
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+        java.util.List<com.springData.domain.MovimientoVenta> ventas = repository.findAll();
+        long totalVentas = ventas.size();
+        long ventasHoy = ventas.stream().filter(v -> hoy.equals(v.getFecha())).count();
+        java.math.BigDecimal totalFacturado = facturaRepository.findAll().stream()
+                .map(com.springData.domain.Factura::getTotal)
+                .filter(java.util.Objects::nonNull)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        java.util.Map<String, Integer> top = new java.util.HashMap<>();
+        detalleVentaRepository.findAll().forEach(d -> {
+            String nombre = d.getProducto() != null ? d.getProducto().getNombre() : "(Sin producto)";
+            top.put(nombre, top.getOrDefault(nombre, 0) + d.getCantidad());
+        });
+        java.util.List<java.util.Map.Entry<String,Integer>> topLista = new java.util.ArrayList<>(top.entrySet());
+        topLista.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
+        if (topLista.size() > 5) topLista = topLista.subList(0,5);
+
+        model.addAttribute("totalVentas", totalVentas);
+        model.addAttribute("ventasHoy", ventasHoy);
+        model.addAttribute("totalFacturado", totalFacturado);
+        model.addAttribute("topProductos", topLista);
+        return "ventas/index"; // ahora index.html es el panel
+    }
+
+    // Lista tradicional en /ventas/lista
+    @GetMapping("/lista")
     public String listarVentas(Model model) {
         List<MovimientoVenta> ventas = repository.findAll();
         model.addAttribute("ventas", ventas);
-        return "ventas/index";
+        return "ventas/lista";
     }
 
     @GetMapping("/nuevo")
@@ -60,7 +88,7 @@ public class MovimientoVentaController {
             }
         }
         repository.save(venta);
-        return "redirect:/ventas";
+        return "redirect:/ventas/lista";
     }
 
     @GetMapping("/editar/{id}")
@@ -71,38 +99,16 @@ public class MovimientoVentaController {
             model.addAttribute("productos", productoRepository.findAll());
             return "ventas/formulario";
         }
-        return "redirect:/ventas";
+        return "redirect:/ventas/lista";
     }
 
     @PostMapping("/eliminar/{id}")
     public String eliminarVenta(@PathVariable Long id) {
         repository.deleteById(id);
-        return "redirect:/ventas";
+        return "redirect:/ventas/lista";
     }
 
+    // Compatibilidad: si alguien entra a /ventas/panel, redirige al nuevo panel en /ventas
     @GetMapping("/panel")
-    public String panel(Model model) {
-        java.time.LocalDate hoy = java.time.LocalDate.now();
-        java.util.List<com.springData.domain.MovimientoVenta> ventas = repository.findAll();
-        long totalVentas = ventas.size();
-        long ventasHoy = ventas.stream().filter(v -> hoy.equals(v.getFecha())).count();
-        java.math.BigDecimal totalFacturado = facturaRepository.findAll().stream()
-                .map(com.springData.domain.Factura::getTotal)
-                .filter(java.util.Objects::nonNull)
-                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
-        java.util.Map<String, Integer> top = new java.util.HashMap<>();
-        detalleVentaRepository.findAll().forEach(d -> {
-            String nombre = d.getProducto() != null ? d.getProducto().getNombre() : "(Sin producto)";
-            top.put(nombre, top.getOrDefault(nombre, 0) + d.getCantidad());
-        });
-        java.util.List<java.util.Map.Entry<String,Integer>> topLista = new java.util.ArrayList<>(top.entrySet());
-        topLista.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
-        if (topLista.size() > 5) topLista = topLista.subList(0,5);
-
-        model.addAttribute("totalVentas", totalVentas);
-        model.addAttribute("ventasHoy", ventasHoy);
-        model.addAttribute("totalFacturado", totalFacturado);
-        model.addAttribute("topProductos", topLista);
-        return "ventas/panel";
-    }
+    public String redirPanel() { return "redirect:/ventas"; }
 }
