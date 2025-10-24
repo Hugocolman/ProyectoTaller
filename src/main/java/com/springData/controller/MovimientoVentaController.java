@@ -1,11 +1,12 @@
-﻿package com.springData.controller;
+package com.springData.controller;
 
-import com.springData.domain.MovimientoVenta;
-import com.springData.domain.DetalleVenta;
-import com.springData.domain.Producto;
 import com.springData.MovimientoVentaRepository;
 import com.springData.DetalleVentaRepository;
 import com.springData.ProductoRepository;
+import com.springData.FacturaRepository;
+import com.springData.domain.MovimientoVenta;
+import com.springData.domain.DetalleVenta;
+import com.springData.domain.Producto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,17 @@ import java.util.List;
 public class MovimientoVentaController {
     private final MovimientoVentaRepository repository;
     private final DetalleVentaRepository detalleVentaRepository;
-    private final ProductoRepository productoRepository;\\r\\n    private final com.springData.FacturaRepository facturaRepository;
+    private final ProductoRepository productoRepository;
+    private final FacturaRepository facturaRepository;
 
-    public MovimientoVentaController(MovimientoVentaRepository repository, DetalleVentaRepository detalleVentaRepository, ProductoRepository productoRepository) {
+    public MovimientoVentaController(MovimientoVentaRepository repository,
+                                     DetalleVentaRepository detalleVentaRepository,
+                                     ProductoRepository productoRepository,
+                                     FacturaRepository facturaRepository) {
         this.repository = repository;
         this.detalleVentaRepository = detalleVentaRepository;
         this.productoRepository = productoRepository;
+        this.facturaRepository = facturaRepository;
     }
 
     @GetMapping
@@ -41,15 +47,13 @@ public class MovimientoVentaController {
 
     @PostMapping("/guardar")
     public String guardarVenta(@ModelAttribute MovimientoVenta venta) {
-        // Procesar detalles de venta y descontar stock
         if (venta.getDetalles() != null) {
             for (DetalleVenta detalle : venta.getDetalles()) {
+                if (detalle.getProducto() == null) continue;
                 Producto producto = productoRepository.findById(detalle.getProducto().getId()).orElse(null);
                 if (producto != null && detalle.getCantidad() > 0 && producto.getCantidad() >= detalle.getCantidad()) {
-                    // Descontar stock
                     producto.setCantidad(producto.getCantidad() - detalle.getCantidad());
                     productoRepository.save(producto);
-                    // Set precio unitario por seguridad
                     detalle.setPrecioUnitario(producto.getPrecio());
                     detalle.setVenta(venta);
                 }
@@ -75,7 +79,7 @@ public class MovimientoVentaController {
         repository.deleteById(id);
         return "redirect:/ventas";
     }
-}
+
     @GetMapping("/panel")
     public String panel(Model model) {
         java.time.LocalDate hoy = java.time.LocalDate.now();
@@ -86,7 +90,6 @@ public class MovimientoVentaController {
                 .map(com.springData.domain.Factura::getTotal)
                 .filter(java.util.Objects::nonNull)
                 .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
-        // Top productos por cantidad
         java.util.Map<String, Integer> top = new java.util.HashMap<>();
         detalleVentaRepository.findAll().forEach(d -> {
             String nombre = d.getProducto() != null ? d.getProducto().getNombre() : "(Sin producto)";
@@ -102,3 +105,4 @@ public class MovimientoVentaController {
         model.addAttribute("topProductos", topLista);
         return "ventas/panel";
     }
+}
