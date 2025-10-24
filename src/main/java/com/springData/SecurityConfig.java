@@ -1,4 +1,4 @@
-package com.springData;
+﻿package com.springData;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers(
                         "/productos/**", "/clientes/**",
-                        "/categorias/**", "/marcas/**",
+                        "/categorias/**", "/marcas/**", "/proveedores/**",
                         "/ventas/**", "/presupuestos/**", "/pedidos/**", "/remitos/**", "/facturas/**"
                 ).hasAnyRole("ADMIN","USER","VIEWER")
                 .antMatchers(HttpMethod.GET,  "/**/nuevo", "/**/editar/**").hasRole("ADMIN")
@@ -57,3 +57,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable();
     }
 }
+
