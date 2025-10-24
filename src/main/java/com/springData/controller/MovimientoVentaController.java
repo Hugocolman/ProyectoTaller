@@ -1,4 +1,4 @@
-package com.springData.controller;
+﻿package com.springData.controller;
 
 import com.springData.MovimientoVentaRepository;
 import com.springData.DetalleVentaRepository;
@@ -31,7 +31,7 @@ public class MovimientoVentaController {
         this.facturaRepository = facturaRepository;
     }
 
-    // Opción A: /ventas muestra el panel (dashboard)
+    // OpciÃ³n A: /ventas muestra el panel (dashboard)
     @GetMapping
     public String panel(Model model) {
         java.time.LocalDate hoy = java.time.LocalDate.now();
@@ -66,12 +66,6 @@ public class MovimientoVentaController {
         return "ventas/lista";
     }
 
-    @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("venta", new MovimientoVenta());
-        model.addAttribute("productos", productoRepository.findAll());
-        return "ventas/formulario";
-    }
 
     @PostMapping("/guardar")
     public String guardarVenta(@ModelAttribute MovimientoVenta venta) {
@@ -112,3 +106,4 @@ public class MovimientoVentaController {
     @GetMapping("/panel")
     public String redirPanel() { return "redirect:/ventas"; }
 }
+
