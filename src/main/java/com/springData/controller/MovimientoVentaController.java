@@ -1,4 +1,4 @@
-package com.springData.controller;
+﻿package com.springData.controller;
 
 import com.springData.domain.MovimientoVenta;
 import com.springData.domain.DetalleVenta;
@@ -17,7 +17,7 @@ import java.util.List;
 public class MovimientoVentaController {
     private final MovimientoVentaRepository repository;
     private final DetalleVentaRepository detalleVentaRepository;
-    private final ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;\\r\\n    private final com.springData.FacturaRepository facturaRepository;
 
     public MovimientoVentaController(MovimientoVentaRepository repository, DetalleVentaRepository detalleVentaRepository, ProductoRepository productoRepository) {
         this.repository = repository;
@@ -76,3 +76,29 @@ public class MovimientoVentaController {
         return "redirect:/ventas";
     }
 }
+    @GetMapping("/panel")
+    public String panel(Model model) {
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+        java.util.List<com.springData.domain.MovimientoVenta> ventas = repository.findAll();
+        long totalVentas = ventas.size();
+        long ventasHoy = ventas.stream().filter(v -> hoy.equals(v.getFecha())).count();
+        java.math.BigDecimal totalFacturado = facturaRepository.findAll().stream()
+                .map(com.springData.domain.Factura::getTotal)
+                .filter(java.util.Objects::nonNull)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        // Top productos por cantidad
+        java.util.Map<String, Integer> top = new java.util.HashMap<>();
+        detalleVentaRepository.findAll().forEach(d -> {
+            String nombre = d.getProducto() != null ? d.getProducto().getNombre() : "(Sin producto)";
+            top.put(nombre, top.getOrDefault(nombre, 0) + d.getCantidad());
+        });
+        java.util.List<java.util.Map.Entry<String,Integer>> topLista = new java.util.ArrayList<>(top.entrySet());
+        topLista.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
+        if (topLista.size() > 5) topLista = topLista.subList(0,5);
+
+        model.addAttribute("totalVentas", totalVentas);
+        model.addAttribute("ventasHoy", ventasHoy);
+        model.addAttribute("totalFacturado", totalFacturado);
+        model.addAttribute("topProductos", topLista);
+        return "ventas/panel";
+    }
