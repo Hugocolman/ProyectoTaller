@@ -32,7 +32,6 @@
                     <td>
                         <a th:href="@{/ventas/editar/{id}(id=${venta.id})}" class="btn btn-primary btn-sm">Detalles</a>
                         <form th:action="@{/ventas/eliminar/{id}(id=${venta.id})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Â¿Eliminar esta venta?');">Eliminar</button>
                         </form>
                     </td>
                 </tr>

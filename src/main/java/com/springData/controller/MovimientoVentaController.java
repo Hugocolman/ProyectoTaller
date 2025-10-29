@@ -1,4 +1,4 @@
-﻿package com.springData.controller;
+package com.springData.controller;
 
 import com.springData.MovimientoVentaRepository;
 import com.springData.DetalleVentaRepository;
@@ -21,41 +21,43 @@ public class MovimientoVentaController {
     private final ProductoRepository productoRepository;
     private final FacturaRepository facturaRepository;
 
-    public MovimientoVentaController(MovimientoVentaRepository repository,
-                                     DetalleVentaRepository detalleVentaRepository,
-                                     ProductoRepository productoRepository,
-                                     FacturaRepository facturaRepository) {
+    public MovimientoVentaController(
+            MovimientoVentaRepository repository,
+            DetalleVentaRepository detalleVentaRepository,
+            ProductoRepository productoRepository,
+            FacturaRepository facturaRepository) {
         this.repository = repository;
         this.detalleVentaRepository = detalleVentaRepository;
         this.productoRepository = productoRepository;
         this.facturaRepository = facturaRepository;
     }
 
-    // OpciÃ³n A: /ventas muestra el panel (dashboard)
+    // Panel (dashboard) en /ventas
     @GetMapping
     public String panel(Model model) {
         java.time.LocalDate hoy = java.time.LocalDate.now();
-        java.util.List<com.springData.domain.MovimientoVenta> ventas = repository.findAll();
+        List<MovimientoVenta> ventas = repository.findAll();
         long totalVentas = ventas.size();
         long ventasHoy = ventas.stream().filter(v -> hoy.equals(v.getFecha())).count();
         java.math.BigDecimal totalFacturado = facturaRepository.findAll().stream()
                 .map(com.springData.domain.Factura::getTotal)
                 .filter(java.util.Objects::nonNull)
                 .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+
         java.util.Map<String, Integer> top = new java.util.HashMap<>();
         detalleVentaRepository.findAll().forEach(d -> {
             String nombre = d.getProducto() != null ? d.getProducto().getNombre() : "(Sin producto)";
             top.put(nombre, top.getOrDefault(nombre, 0) + d.getCantidad());
         });
-        java.util.List<java.util.Map.Entry<String,Integer>> topLista = new java.util.ArrayList<>(top.entrySet());
-        topLista.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
-        if (topLista.size() > 5) topLista = topLista.subList(0,5);
+        java.util.List<java.util.Map.Entry<String, Integer>> topLista = new java.util.ArrayList<>(top.entrySet());
+        topLista.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
+        if (topLista.size() > 5) topLista = topLista.subList(0, 5);
 
         model.addAttribute("totalVentas", totalVentas);
         model.addAttribute("ventasHoy", ventasHoy);
         model.addAttribute("totalFacturado", totalFacturado);
         model.addAttribute("topProductos", topLista);
-        return "ventas/index"; // ahora index.html es el panel
+        return "ventas/index"; // index.html es el panel
     }
 
     // Lista tradicional en /ventas/lista
@@ -65,7 +67,6 @@ public class MovimientoVentaController {
         model.addAttribute("ventas", ventas);
         return "ventas/lista";
     }
-
 
     @PostMapping("/guardar")
     public String guardarVenta(@ModelAttribute MovimientoVenta venta) {
@@ -85,15 +86,14 @@ public class MovimientoVentaController {
         return "redirect:/ventas/lista";
     }
 
-        @GetMapping("/editar/{id}")
+    // Editar muestra la vista de detalle (solo lectura) para la demo
+    @GetMapping("/editar/{id}")
     public String editarVenta(@PathVariable Long id, Model model) {
         MovimientoVenta venta = repository.findById(id).orElse(null);
         if (venta != null) {
             model.addAttribute("venta", venta);
             return "ventas/detalle";
         }
-        return "redirect:/ventas/lista";
-    }
         return "redirect:/ventas/lista";
     }
 
@@ -103,16 +103,11 @@ public class MovimientoVentaController {
         return "redirect:/ventas/lista";
     }
 
-    // Compatibilidad: si alguien entra a /ventas/panel, redirige al nuevo panel en /ventas
-    @GetMapping("/panel")
-    public String redirPanel() { return "redirect:/ventas"; }
-
     @GetMapping("/detalle/{id}")
     public String detalle(@PathVariable Long id, Model model) {
-        com.springData.domain.MovimientoVenta venta = repository.findById(id).orElse(null);
-        if (venta == null) { return "redirect:/ventas/lista"; }
+        MovimientoVenta venta = repository.findById(id).orElse(null);
+        if (venta == null) return "redirect:/ventas/lista";
         model.addAttribute("venta", venta);
         return "ventas/detalle";
     }
 }
-

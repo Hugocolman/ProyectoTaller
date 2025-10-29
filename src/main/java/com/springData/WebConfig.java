@@ -12,6 +12,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import java.util.Locale;
 
 import org.springframework.format.FormatterRegistry;
+import org.springframework.lang.NonNull;
 // Importar el conversor personalizado
 import com.springData.config.StringToLocalDateConverter;
 
@@ -33,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
@@ -49,7 +50,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     // Registrar el conversor de String a LocalDate para el binding de formularios
     @Override
-    public void addFormatters(FormatterRegistry registry) {
+    public void addFormatters(@NonNull FormatterRegistry registry) {
         registry.addConverter(new StringToLocalDateConverter());
     }
 }

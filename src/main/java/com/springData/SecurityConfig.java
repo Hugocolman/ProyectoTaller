@@ -1,42 +1,55 @@
-﻿package com.springData;
+package com.springData;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Autowired
     private CustomAccessDeniedHandler accessDeniedHandler;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN")
-            .and()
-            .withUser("user").password(passwordEncoder().encode("user123")).roles("USER")
-            .and()
-            .withUser("viewer").password(passwordEncoder().encode("viewer123")).roles("VIEWER");
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+        UserDetails admin = User
+                .withUsername("admin")
+                .password(encoder.encode("admin123"))
+                .roles("ADMIN")
+                .build();
+        UserDetails user = User
+                .withUsername("user")
+                .password(encoder.encode("user123"))
+                .roles("USER")
+                .build();
+        UserDetails viewer = User
+                .withUsername("viewer")
+                .password(encoder.encode("viewer123"))
+                .roles("VIEWER")
+                .build();
+        return new InMemoryUserDetailsManager(admin, user, viewer);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+            .authorizeRequests(auth -> auth
                 .antMatchers("/login", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers(
@@ -47,14 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,  "/**/nuevo", "/**/editar/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/**/guardar", "/**/eliminar/**", "/**/anular/**", "/facturas/emitir/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-            .and()
-            .formLogin().loginPage("/login").permitAll()
-            .and()
-            .logout().permitAll()
-            .and()
-            .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-            .and()
-            .csrf().disable();
+            )
+            .formLogin(login -> login.loginPage("/login").permitAll())
+            .logout(logout -> logout.permitAll())
+            .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
+            .csrf(csrf -> csrf.disable());
+
+        return http.build();
     }
 }
 
