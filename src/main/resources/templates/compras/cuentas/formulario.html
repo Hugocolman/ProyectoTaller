@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Cuenta a Pagar')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <h1 class="h4" th:text="${cuenta.id} != null ? 'Editar Cuenta' : 'Nueva Cuenta'"></h1>
+  <form th:action="@{/compras/cuentas/guardar}" th:object="${cuenta}" method="post">
+    <div th:replace="fragments/messages :: formMessages"></div>
+    <input type="hidden" name="id" th:value="${cuenta.id}">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Fecha Emisión</label>
+        <input type="date" class="form-control" th:field="*{fechaEmision}" th:classappend="${#fields.hasErrors('fechaEmision')}? 'is-invalid'">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('fechaEmision')}" th:errors="*{fechaEmision}"></div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Fecha Vencimiento</label>
+        <input type="date" class="form-control" name="fechaVencimiento" th:value="${cuenta.fechaVencimiento}">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Nro. Factura</label>
+        <input type="text" class="form-control" name="numeroFactura" th:value="${cuenta.numeroFactura}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Proveedor</label>
+        <select class="form-select" th:field="*{proveedor.id}" th:classappend="${#fields.hasErrors('proveedor')}? 'is-invalid'" required>
+          <option value="" disabled th:selected="${cuenta.proveedor == null}">Selecciona un proveedor</option>
+          <option th:each="prov: ${proveedores}"
+                  th:value="${prov.id}"
+                  th:text="${prov.nombre}"
+                  th:selected="${cuenta.proveedor != null and prov.id == cuenta.proveedor.id}">
+          </option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('proveedor')}" th:errors="*{proveedor}"></div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Monto</label>
+        <input type="number" step="0.01" class="form-control" th:field="*{monto}" th:classappend="${#fields.hasErrors('monto')}? 'is-invalid'">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('monto')}" th:errors="*{monto}"></div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Estado</label>
+        <input type="text" class="form-control" name="estado" th:value="${cuenta.estado}">
+      </div>
+    </div>
+    <div class="mt-3">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a th:href="@{/compras/cuentas}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+  <p class="text-muted mt-3">Nota: el vínculo con compras y pagos parciales se ampliará luego.</p>
+  </div>
+</section>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.springData.controller;
 
 import com.springData.domain.Producto;
-import com.springData.servicio.ProductoServicioImp;
+import com.springData.servicio.ProductoServicio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductoController {
 
     @Autowired
-    private ProductoServicioImp productoServicio;
+    private ProductoServicio productoServicio;
 
     // El controlador se apoya solo en la capa de servicio
 

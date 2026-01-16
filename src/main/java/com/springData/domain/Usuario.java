@@ -14,8 +14,8 @@ public class Usuario implements Serializable {
     private String nombre;
     private String email;
 
-    @ManyToOne(optional = true) // Cambia a `optional = true` si `id_rol` puede ser NULL
-    @JoinColumn(name = "rol_id", nullable = false) // Asegúrate de que el nombre sea correcto
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
 
     // Getters y Setters

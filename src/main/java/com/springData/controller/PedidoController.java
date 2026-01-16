@@ -1,3 +1,9 @@
+/*
+  MÓDULO DE VENTAS DESHABILITADO TEMPORALMENTE
+  Controlador de Pedidos (Ventas) comentado para retirar el módulo sin eliminar código.
+
+  (Inicio de comentario de bloque: todo el archivo queda comentado)
+ 
 package com.springData.controller;
 
 import com.springData.PedidoRepository;
@@ -114,3 +120,4 @@ public class PedidoController {
         return "pedidos/imprimir";
     }
 }
+*/

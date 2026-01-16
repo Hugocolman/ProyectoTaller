@@ -52,13 +52,14 @@ public class SecurityConfig {
             .authorizeRequests(auth -> auth
                 .antMatchers("/login", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/", "/index").permitAll()
+                .antMatchers(org.springframework.http.HttpMethod.GET, "/compras", "/compras/**").permitAll()
                 .antMatchers(
                         "/productos/**", "/clientes/**",
                         "/categorias/**", "/marcas/**", "/proveedores/**",
-                        "/ventas/**", "/presupuestos/**", "/pedidos/**", "/remitos/**", "/facturas/**"
+                        "/compras/**"
                 ).hasAnyRole("ADMIN","USER","VIEWER")
                 .antMatchers(HttpMethod.GET,  "/**/nuevo", "/**/editar/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/**/guardar", "/**/eliminar/**", "/**/anular/**", "/facturas/emitir/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/**/guardar", "/**/eliminar/**", "/**/anular/**", "/facturas/emitir/**", "/**/recibir/**", "/**/autorizar/**", "/**/desautorizar/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login.loginPage("/login").permitAll())

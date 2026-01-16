@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Cuentas a Pagar')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Cuentas a Pagar</h1>
+    <a class="btn btn-primary" th:href="@{/compras/cuentas/nuevo}">Nueva Cuenta</a>
+  </div>
+  <form class="row g-2 mb-3">
+    <div class="col-auto">
+      <input class="form-control" type="search" name="q" th:value="${q}" placeholder="Buscar por proveedor o factura">
+    </div>
+    <div class="col-auto"><button class="btn btn-outline-secondary" type="submit">Buscar</button></div>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+      <tr><th>#</th><th>Emisión</th><th>Vencimiento</th><th>Factura</th><th>Proveedor</th><th>Monto</th><th>Saldo</th><th>Estado</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="c: ${cuentas}">
+          <td th:text="${c.id}"></td>
+          <td th:text="${c.fechaEmision}"></td>
+          <td th:text="${c.fechaVencimiento}"></td>
+          <td th:text="${c.numeroFactura}"></td>
+          <td th:text="${c.proveedor != null ? c.proveedor.nombre : '—'}"></td>
+          <td th:text="${c.monto}"></td>
+          <td th:text="${c.saldo}"></td>
+          <td th:text="${c.estado}"></td>
+          <td class="text-end">
+            <form th:action="@{'/compras/cuentas/pagar/' + ${c.id}}" method="post" class="d-inline">
+              <div class="input-group input-group-sm" style="width: 180px;">
+                <input type="number" step="0.01" min="0" class="form-control" name="importe" placeholder="Importe">
+                <button class="btn btn-outline-success" type="submit">Pagar</button>
+              </div>
+            </form>
+            <a class="btn btn-sm btn-outline-primary" th:href="@{'/compras/cuentas/editar/' + ${c.id}}">Editar</a>
+            <form th:action="@{'/compras/cuentas/eliminar/' + ${c.id}}" method="post" class="d-inline">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a th:href="@{/compras}" class="btn btn-secondary btn-sm">Volver</a>
+</div>
+</section>
+</body>
+</html>

@@ -1,3 +1,9 @@
+/*
+  MÓDULO DE VENTAS DESHABILITADO TEMPORALMENTE
+  Controlador de Presupuestos (Ventas) comentado para retirar el módulo sin eliminar código.
+
+  (Inicio de comentario de bloque: todo el archivo queda comentado)
+ 
 package com.springData.controller;
 
 import com.springData.PresupuestoRepository;
@@ -135,3 +141,4 @@ public class PresupuestoController {
         return "redirect:/pedidos/editar/" + pedido.getId();
     }
 }
+*/

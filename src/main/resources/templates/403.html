@@ -6,11 +6,13 @@
         <link th:href="@{/css/theme.css}" rel="stylesheet">
     </head>
     <body>
+        <div th:replace="navbar :: navbar"></div>
         <div class="container mt-5 text-center">
             <h1>403 - Acceso Denegado</h1>
             <p th:text="${message}">No tienes permisos para acceder a esta Página.</p>
             <a href="/login" class="btn btn-primary mt-3">Volver</a>
         </div>
+        <div th:replace="footer :: footer"></div>
     </body>
 </html>
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Compras - Informe Web')">
+  <style>
+    .stat { background:#fff; border-radius:12px; padding:16px; box-shadow:0 4px 12px rgba(0,0,0,.08); }
+  </style>
+</head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Informe Web de Compras</h1>
+    <form class="row g-2" method="get">
+      <div class="col-auto"><input type="date" class="form-control" name="desde" th:value="${desde}"></div>
+      <div class="col-auto"><input type="date" class="form-control" name="hasta" th:value="${hasta}"></div>
+      <div class="col-auto"><button class="btn btn-outline-secondary" type="submit">Filtrar</button></div>
+    </form>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="stat"><div class="text-muted">Compras</div><div class="h4" th:text="${totalCompras}">0</div></div></div>
+    <div class="col-md-3"><div class="stat"><div class="text-muted">Total facturado</div><div class="h4" th:text="${totalFacturado}">0</div></div></div>
+    <div class="col-md-3"><div class="stat"><div class="text-muted">Proveedores activos</div><div class="h4" th:text="${proveedoresActivos}">0</div></div></div>
+    <div class="col-md-3"><div class="stat"><div class="text-muted">OC pendientes</div><div class="h4" th:text="${ocPendientes}">0</div></div></div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Compras por día</h5>
+          <canvas id="chartCompras"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Top productos</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="e : ${topProductos}">
+              <span th:text="${e.key}">Producto</span>
+              <span class="badge bg-primary rounded-pill" th:text="${e.value}">0</span>
+            </li>
+          </ul>
+          <h5 class="card-title mt-3">Top proveedores</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="e : ${topProveedores}">
+              <span th:text="${e.key}">Proveedor</span>
+              <span class="badge bg-success rounded-pill" th:text="${e.value}">0</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a th:href="@{/compras}" class="btn btn-secondary btn-sm mt-3">Volver</a>
+  </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+  const labels = /*[[${labels}]]*/ [];
+  const data = /*[[${data}]]*/ [];
+  const ctx = document.getElementById('chartCompras');
+  if (ctx && labels && data) {
+    new Chart(ctx, {
+      type: 'line',
+      data: { labels: labels, datasets: [{ label: 'Total por día', data: data, borderColor: '#0d6efd', fill: false }]},
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+  }
+</script>
+</body>
+</html>

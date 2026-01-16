@@ -13,6 +13,24 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="comprasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Compras
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="comprasDropdown">
+                                <li><a class="dropdown-item" th:href="@{/compras/pedidos}">Registrar Pedidos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/ordenes}">Órdenes de Compra</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/gestion}">Gestionar Compras</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/cuentas}">Cuentas a Pagar</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/libro}">Libro de Compras</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/ajustes}">Ajustes</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/notas}">Notas Crédito/Débito</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/remisiones}">Notas de Remisión</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" th:href="@{/compras/informe}">Informe Web</a></li>
+                            </ul>
+                        </li>
+                        <!--
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" id="ventasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ventas
                             </a>
@@ -25,6 +43,7 @@
                                 <li><a class="dropdown-item" th:href="@{/ventas}">Panel de Ventas</a></li>
                             </ul>
                         </li>
+                        -->
                         <li class="nav-item"><a class="nav-link text-white fw-semibold" th:href="@{/productos}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link text-white" th:href="@{/marcas}">Marcas</a></li>
                         <li class="nav-item"><a class="nav-link text-white" th:href="@{/categorias}">Categorías</a></li>

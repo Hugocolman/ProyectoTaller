@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Notas de Compra')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Notas de Compra</h1>
+    <a class="btn btn-primary" th:href="@{/compras/notas/nuevo}">Nueva Nota</a>
+  </div>
+  <form class="row g-2 mb-3">
+    <div class="col-auto"><input class="form-control" type="search" name="q" th:value="${q}" placeholder="Buscar por proveedor"></div>
+    <div class="col-auto"><input type="date" class="form-control" name="desde" th:value="${desde}"></div>
+    <div class="col-auto"><input type="date" class="form-control" name="hasta" th:value="${hasta}"></div>
+    <div class="col-auto"><button class="btn btn-outline-secondary">Filtrar</button></div>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+      <tr><th>#</th><th>Fecha</th><th>Compra</th><th>Proveedor</th><th>Tipo</th><th>Monto</th><th>Motivo</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="n: ${notas}">
+        <td th:text="${n.id}"></td>
+        <td th:text="${n.fecha}"></td>
+        <td th:text="${n.compra != null ? n.compra.id : ''}"></td>
+        <td th:text="${n.compra != null && n.compra.proveedor != null ? n.compra.proveedor.nombre : ''}"></td>
+        <td th:text="${n.tipo}"></td>
+        <td th:text="${n.monto}"></td>
+        <td th:text="${n.motivo}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</section>
+</body>
+</html>

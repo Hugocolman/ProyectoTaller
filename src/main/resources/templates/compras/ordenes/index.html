@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Órdenes de Compra')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Órdenes de Compra</h1>
+    <a class="btn btn-primary" th:href="@{/compras/ordenes/nuevo}">Nueva Orden</a>
+  </div>
+  <form class="row g-2 mb-3">
+    <div class="col-auto">
+      <input class="form-control" type="search" name="q" th:value="${q}" placeholder="Buscar por proveedor o número">
+    </div>
+    <div class="col-auto"><button class="btn btn-outline-secondary" type="submit">Buscar</button></div>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+        <tr><th>#</th><th>Fecha</th><th>Número</th><th>Proveedor</th><th>Estado</th><th>Total</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="oc: ${ordenes}">
+          <td th:text="${oc.id}"></td>
+          <td th:text="${oc.fecha}"></td>
+          <td th:text="${oc.numero}"></td>
+          <td th:text="${oc.proveedor != null ? oc.proveedor.nombre : '—'}"></td>
+          <td th:text="${oc.estado}"></td>
+          <td th:text="${oc.total}"></td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-primary" th:href="@{'/compras/ordenes/editar/' + ${oc.id}}">Editar</a>
+            <form th:action="@{'/compras/ordenes/eliminar/' + ${oc.id}}" method="post" class="d-inline">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+            </form>
+            <form th:action="@{'/compras/ordenes/recibir/' + ${oc.id}}" method="post" class="d-inline">
+              <button class="btn btn-sm btn-success" type="submit">Recibir</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a th:href="@{/compras}" class="btn btn-secondary btn-sm">Volver</a>
+  </div>
+</section>
+</body>
+</html>

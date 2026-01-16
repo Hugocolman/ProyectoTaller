@@ -29,7 +29,8 @@
         <div class="col-md-4"><a th:href="@{/docs/ventas}" class="text-decoration-none"><div class="card h-100 shadow-sm"><div class="card-body"><h5 class="card-title">Ventas</h5><p class="card-text">Pedido, Factura de venta</p></div></div></a></div>
         <div class="col-md-4"><a th:href="@{/docs/cliente}" class="text-decoration-none"><div class="card h-100 shadow-sm"><div class="card-body"><h5 class="card-title">Cliente</h5><p class="card-text">Recibo, Nota de entrega</p></div></div></a></div>
       </div>
-    </div>
+  </div>
+    <div th:replace="footer :: footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
   </html>

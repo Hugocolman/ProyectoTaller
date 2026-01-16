@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Detalle de Compra')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Detalle de Compra</h1>
+    <a th:href="@{/compras/gestion}" class="btn btn-secondary btn-sm">Volver</a>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-3"><strong>ID:</strong> <span th:text="${compra.id}"></span></div>
+    <div class="col-md-3"><strong>Fecha:</strong> <span th:text="${compra.fecha}"></span></div>
+    <div class="col-md-6"><strong>Proveedor:</strong> <span th:text="${compra.proveedor != null ? compra.proveedor.nombre : ''}"></span></div>
+    <div class="col-md-3"><strong>Estado:</strong> <span class="badge bg-secondary" th:text="${compra.estado}"></span></div>
+    <div class="col-md-3"><strong>Método Pago:</strong> <span th:text="${compra.metodoPago}"></span></div>
+    <div class="col-md-3"><strong>Nro Factura:</strong> <span th:text="${compra.nroFactura}"></span></div>
+    <div class="col-md-3"><strong>Total:</strong> <span th:text="${compra.total}"></span></div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+      <tr><th>Producto</th><th>Cantidad</th><th>Costo Unitario</th><th>Subtotal</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="d : ${compra.detalles}">
+        <td th:text="${d.producto != null ? d.producto.nombre : '—'}"></td>
+        <td th:text="${d.cantidad}"></td>
+        <td th:text="${d.costoUnitario}"></td>
+        <td th:text="${d.costoUnitario.multiply(new java.math.BigDecimal(d.cantidad))}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-2">
+    <form th:if="${compra.estado != 'ANULADA'}" th:action="@{'/compras/gestion/anular/' + ${compra.id}}" method="post">
+      <button class="btn btn-outline-danger" onclick="return confirm('¿Anular esta compra?');">Anular Compra</button>
+    </form>
+  </div>
+</div>
+</section>
+</body>
+</html>

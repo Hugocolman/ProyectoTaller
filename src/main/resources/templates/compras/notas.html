@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Compras - Notas Crédito/Débito')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <h1 class="h4">Notas de Crédito y Débito</h1>
+  <p class="text-muted">Registro y gestión de notas (pendiente de lógica).</p>
+  <a th:href="@{/compras}" class="btn btn-secondary btn-sm">Volver</a>
+  </div>
+</section>
+</body>
+</html>

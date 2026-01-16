@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Compras - Libro de Compras')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Libro de Compras</h1>
+    <form class="row g-2" method="get">
+      <div class="col-auto">
+        <input type="date" class="form-control" name="desde" th:value="${desde}">
+      </div>
+      <div class="col-auto">
+        <input type="date" class="form-control" name="hasta" th:value="${hasta}">
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+      <tr><th>Fecha</th><th>Proveedor</th><th>Método Pago</th><th>Nro Factura</th><th>Neto</th><th>IVA</th><th>Total</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="c: ${compras}">
+        <td th:text="${c.fecha}"></td>
+        <td th:text="${c.proveedor != null ? c.proveedor.nombre : '—'}"></td>
+        <td th:text="${c.metodoPago}"></td>
+        <td th:text="${c.nroFactura}"></td>
+        <td th:text="${c.total}"></td>
+        <td th:text="${c.total.multiply(ivaRate)}"></td>
+        <td th:text="${c.total.add(c.total.multiply(ivaRate))}"></td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <th colspan="4" class="text-end">Totales</th>
+        <th th:text="${totalNeto}"></th>
+        <th th:text="${totalIva}"></th>
+        <th th:text="${totalConIva}"></th>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="d-flex gap-2">
+    <a th:href="@{/compras}" class="btn btn-secondary btn-sm">Volver</a>
+    <a class="btn btn-outline-primary btn-sm" th:href="@{'/compras/libro/export?(desde=' + ${desde} + ')&(hasta=' + ${hasta} + ')'}">Exportar CSV</a>
+  </div>
+  </div>
+</section>
+</body>
+</html>

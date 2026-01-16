@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <div th:fragment="formMessages">
+    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+      <ul class="mb-0">
+        <li th:each="e : ${#fields.globalErrors()}" th:text="${e}"></li>
+      </ul>
+    </div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+  </div>
+</body>
+</html>
+

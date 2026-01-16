@@ -1,3 +1,9 @@
+/*
+  MÓDULO DE VENTAS DESHABILITADO TEMPORALMENTE
+  Controlador de Remitos comentado para retirar el módulo sin eliminar código.
+
+  (Inicio de comentario de bloque: todo el archivo queda comentado)
+
 package com.springData.controller;
 
 import com.springData.RemitoRepository;
@@ -222,3 +228,4 @@ public class RemitoController {
         return "redirect:/remitos/detalle/" + id;
     }
 }
+*/

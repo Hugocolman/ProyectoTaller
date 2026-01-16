@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Módulo de Compras')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <h1 class="h3 mb-3">Módulo de Compras</h1>
+  <p class="text-muted">Seleccione una acción para continuar.</p>
+    <div class="row g-3">
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/pedidos}">Registrar Pedidos</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/ordenes}">Órdenes de Compra</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/gestion}">Gestionar Compras</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/cuentas}">Cuentas a Pagar</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/libro}">Libro de Compras</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/ajustes}">Ajustes</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/notas}">Notas Crédito/Débito</a></div>
+    <div class="col-md-4"><a class="btn btn-outline-primary w-100" th:href="@{/compras/remisiones}">Notas de Remisión</a></div>
+    <div class="col-12"><a class="btn btn-success w-100" th:href="@{/compras/informe}">Informe Web</a></div>
+  </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Compras - Ajustes')"></head>
+<body th:replace="fragments/layout :: shell(~{::section})">
+<section>
+<div class="container mt-4">
+  <h1 class="h4">Ajustes</h1>
+  <p class="text-muted">Ajustes de compras e inventario asociado (pendiente de lógica).</p>
+  <a th:href="@{/compras}" class="btn btn-secondary btn-sm">Volver</a>
+  </div>
+</section>
+</body>
+</html>
