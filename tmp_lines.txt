@@ -1,0 +1,56 @@
+ 57: package com.springData;
+ 58: 
+ 59: import org.springframework.context.annotation.Bean;
+ 60: import org.springframework.context.annotation.Configuration;
+ 61: import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+ 62: import org.springframework.web.servlet.LocaleResolver;
+ 63: import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+ 64: import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+ 65: import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+ 66: import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+ 67: 
+ 68: import java.util.Locale;
+ 69: 
+ 70: import org.springframework.format.FormatterRegistry;
+ 71: import org.springframework.lang.NonNull;
+ 72: // Importar el conversor personalizado
+ 73: import com.springData.config.StringToLocalDateConverter;
+ 74: 
+ 75: @Configuration
+ 76: public class WebConfig implements WebMvcConfigurer {
+ 77: 
+ 78:     @Bean
+ 79:     public LocaleResolver localeResolver() {
+ 80:         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+ 81:         localeResolver.setDefaultLocale(new Locale("es"));
+ 82:         return localeResolver;
+ 83:     }
+ 84: 
+ 85:     @Bean
+ 86:     public LocaleChangeInterceptor localeChangeInterceptor() {
+ 87:         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+ 88:         localeChangeInterceptor.setParamName("lang");
+ 89:         return localeChangeInterceptor;
+ 90:     }
+ 91: 
+ 92:     @Override
+ 93:     public void addInterceptors(@NonNull InterceptorRegistry registry) {
+ 94:         registry.addInterceptor(localeChangeInterceptor());
+ 95:     }
+ 96: 
+ 97:     @Bean
+ 98:     public ReloadableResourceBundleMessageSource messageSource() {
+ 99:         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+100:         messageSource.setBasename("classpath:messages");
+101:         messageSource.setDefaultEncoding("UTF-8");
+102:         messageSource.setFallbackToSystemLocale(false); 
+103:         messageSource.setDefaultLocale(new Locale("es")); 
+104:         return messageSource;
+105:     }
+106: 
+107:     // Registrar el conversor de String a LocalDate para el binding de formularios
+108:     @Override
+109:     public void addFormatters(@NonNull FormatterRegistry registry) {
+110:         registry.addConverter(new StringToLocalDateConverter());
+111:     }
+112: }

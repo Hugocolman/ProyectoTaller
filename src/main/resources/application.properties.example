@@ -41,3 +41,8 @@ app.iva.rate=0.10
 app.remito.establecimiento=001
 app.remito.punto=001
 
+# HikariCP: forzar fallo en arranque si la BD no está disponible
+# Intenta crear al menos 1 conexión en el startup y falla si no puede en 30s
+spring.datasource.hikari.minimumIdle=1
+spring.datasource.hikari.initializationFailTimeout=30000
+
